@@ -1,4 +1,4 @@
-package com.java.cs505.finalProject.Controller;
+package com.java.cs505.project.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

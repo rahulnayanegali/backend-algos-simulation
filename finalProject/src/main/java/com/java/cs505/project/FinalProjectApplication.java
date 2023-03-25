@@ -1,4 +1,4 @@
-package com.java.cs505.finalProject;
+package com.java.cs505.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
