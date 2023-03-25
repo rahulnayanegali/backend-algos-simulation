@@ -1,4 +1,4 @@
-package com.java.cs505.finalProject;
+package com.java.cs505.project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
