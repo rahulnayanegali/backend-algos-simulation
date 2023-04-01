@@ -6,9 +6,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync //3.1
 @SpringBootApplication
-public class SsewebmvcApplication {
+public class SSEofAlgorithmSimulation {
 
     public static void main(String[] args) {
-        SpringApplication.run(SsewebmvcApplication.class, args);
+        SpringApplication.run(SSEofAlgorithmSimulation.class, args);
     }
 }
