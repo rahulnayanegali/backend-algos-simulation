@@ -64,4 +64,38 @@ public class SortController {
         return emitter;
     }
 
+    @GetMapping("/insertionSort")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public SseEmitter streamSseMvc2(@RequestParam("arr") String arrStr) {
+        int[] arr = Arrays.stream(arrStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+        sseMvcExecutor.execute(() -> {
+            try {
+                int[] newArr = {};
+                for (int i = 0; i < arr.length - 1; i++) {
+                    for (int j = i + 1; j > 0; j--) {
+                        if (arr[j] < arr[j - 1]) {
+                            swap(arr, j, j - 1);
+                            newArr = Arrays.copyOf(arr, arr.length);
+                            SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
+                            emitter.send(event);
+                            Thread.sleep(1000);
+                            System.out.println("Sent event: " + Arrays.toString(newArr));
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
+                emitter.send(completed);
+                System.out.println("Sorting completed.");
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+                System.err.println("Error occurred: " + ex.getMessage());
+            }
+        });
+        return emitter;
+    }
+
 }
