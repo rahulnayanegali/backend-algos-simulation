@@ -29,6 +29,15 @@ public class SortController {
         arr[first] = temp;
     }
 
+    static int getMaxIndex(int[] arr, int start, int end) {
+  int max = start;
+  for (int i = start; i <= end; i++) {
+    if (arr[max] < arr[i]) {
+      max = i;
+    }
+  }
+  return max;
+}
     @GetMapping("/cycleSort")
     @CrossOrigin(origins = "http://localhost:3000")
     public SseEmitter streamSseMvc(@RequestParam("arr") String arrStr) {
@@ -64,4 +73,113 @@ public class SortController {
         return emitter;
     }
 
+    @GetMapping("/insertionSort")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public SseEmitter streamSseMvc2(@RequestParam("arr") String arrStr) {
+        int[] arr = Arrays.stream(arrStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+        sseMvcExecutor.execute(() -> {
+            try {
+                int[] newArr = {};
+                for (int i = 0; i < arr.length - 1; i++) {
+                    for (int j = i + 1; j > 0; j--) {
+                        if (arr[j] < arr[j - 1]) {
+                            swap(arr, j, j - 1);
+                            newArr = Arrays.copyOf(arr, arr.length);
+                            SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
+                            emitter.send(event);
+                            Thread.sleep(1000);
+                            System.out.println("Sent event: " + Arrays.toString(newArr));
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
+                emitter.send(completed);
+                System.out.println("Sorting completed.");
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+                System.err.println("Error occurred: " + ex.getMessage());
+            }
+        });
+        return emitter;
+    }
+    @GetMapping("/selectionSort")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public SseEmitter streamSseMvc3(@RequestParam("arr") String arrStr) {
+        int[] arr = Arrays.stream(arrStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+        sseMvcExecutor.execute(() -> {
+        try {
+          int[] newArr = {};
+          for (int i = 0; i < arr.length; i++) {
+            //            find the maximum element in the arr and swap it
+            int last = arr.length - i - 1;
+            int maxIndex = getMaxIndex(arr, 0, last);
+            swap(arr, maxIndex, last);
+            newArr = Arrays.copyOf(arr, arr.length);
+            SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
+            emitter.send(event);
+            Thread.sleep(1000);
+            System.out.println("Sent event: " + Arrays.toString(newArr));
+          }
+          SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
+          emitter.send(completed);
+          System.out.println("Sorting completed.");
+        }
+        catch (Exception ex) {
+          emitter.completeWithError(ex);
+          System.err.println("Error occurred: " + ex.getMessage());
+        }
+  });
+  return emitter;
+}
+
+    @GetMapping("/bubbleSort")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public SseEmitter streamSseMvc4(@RequestParam("arr") String arrStr) {
+        int[] arr = Arrays.stream(arrStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+        sseMvcExecutor.execute(() -> {
+            try {
+                int[] newArr = {};
+                boolean swapped;
+                // run n-1 times
+                for (int i = 0; i < arr.length; i++) {
+                    // for each step, max item will come at the last respective index
+                    swapped = false;
+                    for (int j = 1; j< arr.length-i; j++) {
+                        // swap if the current element is smaller than prev
+                        if (arr[j] < arr[j-1]) {
+                            // swap
+//                            swap(arr, arr[j], arr[j-1]);
+                            int temp = arr[j];
+                            arr[j] = arr[j-1];
+                            arr[j-1] = temp;
+                            swapped = true;
+                            newArr = Arrays.copyOf(arr, arr.length);
+                            SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
+                            emitter.send(event);
+                            Thread.sleep(1000);
+                            System.out.println("Sent event: " + Arrays.toString(newArr));
+                        }
+                    }
+                    if (!swapped) {
+                        break;
+                    }
+                }
+                SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
+                emitter.send(completed);
+                System.out.println("Sorting completed.");
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+                System.err.println("Error occurred: " + ex.getMessage());
+            }
+        });
+        return emitter;
+    }
 }
