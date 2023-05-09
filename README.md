@@ -47,6 +47,18 @@ This endpoint takes an array of integers as a query parameter and returns the so
 | --------- | ---------------------- | ------ |
 | arr       | The array to be sorted | string |
 
+### Quick Sort
+
+Endpoint: `GET /quickSort`
+
+This endpoint takes an array of integers as a query parameter and returns the sorting process as a stream of SSE events.
+
+#### Request Parameters
+
+| Parameter | Description            | Type   |
+| --------- | ---------------------- | ------ |
+| arr       | The array to be sorted | string |
+
 #### SSE Event Data
 
 The SSE event data contains an array of integers representing the state of the array after each swap operation.
