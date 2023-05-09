@@ -6,6 +6,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -182,4 +183,68 @@ public class SortController {
         });
         return emitter;
     }
+
+    @GetMapping("/quickSort")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public SseEmitter streamSseMvc5(@RequestParam("arr") String arrStr) {
+        int[] arr = Arrays.stream(arrStr.split(",")).mapToInt(Integer::parseInt).toArray();
+        SseEmitter emitter = new SseEmitter();
+        ExecutorService sseMvcExecutor = Executors.newSingleThreadExecutor();
+        sseMvcExecutor.execute(() -> {
+            try {
+                int i = 0;
+                int j = arr.length -1;
+                Stack<Integer> s = new Stack<>();
+                s.push(i);
+                s.push(j);
+                while (!s.isEmpty()) {
+                    int r = s.pop();
+                    int l = s.pop();
+                    if (l < r) {
+                        int boundary = partition(arr, l, r);
+                        s.push(l);
+                        s.push(boundary);
+                        s.push(boundary + 1);
+                        s.push(r);
+                    }
+                    SseEmitter.SseEventBuilder event = SseEmitter.event().data(arr);
+                    emitter.send(event);
+                    Thread.sleep(1000);
+                    System.out.println("Sent event: " + Arrays.toString(arr));
+
+                    System.out.println("Current iteration: " + i);
+                }
+                SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
+                emitter.send(completed);
+                System.out.println("Sorting completed.");
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+                System.err.println("Error occurred: " + ex.getMessage());
+            }
+        });
+        return emitter;
+    }
+
+    private int partition(int[] nums, int start, int end) {
+        if (start >= end) {
+            return -1;
+        }
+        int l = start, r = end;
+        int pivot = nums[l + (r - l) / 2];
+        while (l <= r) {
+            while (l <= r && nums[l] < pivot) {
+                l++;
+            }
+            while(l <= r && nums[r] > pivot) {
+                r--;
+             }
+            if (l <= r) {
+                swap(nums, l, r);
+                l++;
+                r--;
+            }
+        }
+        return r;
+    }
+
 }
