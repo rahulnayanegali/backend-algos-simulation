@@ -1,74 +1,100 @@
-
-
 # Backend Algorithm Simulation
 
-This is a Java Spring Boot project that provides REST API endpoints for sorting algorithms. It uses Spring's Server-Sent Events (SSE) to stream the sorting process to the client.
-
-## Prerequisites
-
-- JDK 11 or later
-- Maven
-- IDE (e.g., IntelliJ IDEA, Eclipse)
-
-## Getting Started
-
-1. Clone the repository or download the zip file.
-2. Import the project into your IDE as a Maven project.
-3. Run the `SSEofAlgorithmSimulation` class to start the server.
-4. Open the client-side application that consumes the endpoints.
-
-## Endpoints
-
-### Cycle Sort
-
-Endpoint: `GET /cycleSort`
-
-This endpoint takes an array of integers as a query parameter and returns the sorting process as a stream of SSE events.
-
-#### Request Parameters
-
-| Parameter | Description            | Type   |
-| --------- | ---------------------- | ------ |
-| arr       | The array to be sorted | string |
-
-#### SSE Event Data
-
-The SSE event data contains an array of integers representing the state of the array after each swap operation.
-
-### Insertion Sort
-
-Endpoint: `GET /insertionSort`
-
-This endpoint takes an array of integers as a query parameter and returns the sorting process as a stream of SSE events.
-
-#### Request Parameters
-
-| Parameter | Description            | Type   |
-| --------- | ---------------------- | ------ |
-| arr       | The array to be sorted | string |
-
-### Quick Sort
-
-Endpoint: `GET /quickSort`
-
-This endpoint takes an array of integers as a query parameter and returns the sorting process as a stream of SSE events.
-
-#### Request Parameters
-
-| Parameter | Description            | Type   |
-| --------- | ---------------------- | ------ |
-| arr       | The array to be sorted | string |
-
-#### SSE Event Data
-
-The SSE event data contains an array of integers representing the state of the array after each swap operation.
+This repository contains the code for a backend algorithm simulation application. The application provides APIs for streaming the step-by-step execution of various sorting algorithms using Server-Sent Events (SSE).
 
 ## Technologies Used
 
 - Java
 - Spring Boot
-- Maven
 
-## Acknowledgments
+## Installation and Setup
+1. Clone the repository:
 
-This project was created as part of a group project for a Software Engineering course at XYZ University. Special thanks to my teammates for their contributions.
+   ```bash
+   git clone https://github.com/charitha-g/cs505-group1-final-project.git
+   ```
+
+2. Open the project in your preferred IDE.
+
+3. Build the project using Maven or your IDE's build tools.
+
+4. Run the `SSEofAlgorithmSimulation` class located in the `com.groupone.backendalgo` package.
+
+5. The application will start running on `http://localhost:8080`.
+
+## Available APIs
+
+### Cycle Sort
+
+Endpoint: `/cycleSort`
+
+#### Request
+
+- Method: `GET`
+- Query Parameter: `arr` (comma-separated integer array)
+
+#### Response
+
+The response will be streamed as SSE events, where each event will contain an updated array representing a step in the sorting process. The last event will contain the string `"completed"` to indicate the completion of sorting.
+
+### Insertion Sort
+
+Endpoint: `/insertionSort`
+
+#### Request
+
+- Method: `GET`
+- Query Parameter: `arr` (comma-separated integer array)
+
+#### Response
+
+The response will be streamed as SSE events, where each event will contain an updated array representing a step in the sorting process. The last event will contain the string `"completed"` to indicate the completion of sorting.
+
+### Selection Sort
+
+Endpoint: `/selectionSort`
+
+#### Request
+
+- Method: `GET`
+- Query Parameter: `arr` (comma-separated integer array)
+
+#### Response
+
+The response will be streamed as SSE events, where each event will contain an updated array representing a step in the sorting process. The last event will contain the string `"completed"` to indicate the completion of sorting.
+
+### Bubble Sort
+
+Endpoint: `/bubbleSort`
+
+#### Request
+
+- Method: `GET`
+- Query Parameter: `arr` (comma-separated integer array)
+
+#### Response
+
+The response will be streamed as SSE events, where each event will contain an updated array representing a step in the sorting process. The last event will contain the string `"completed"` to indicate the completion of sorting.
+
+### Quick Sort
+
+Endpoint: `/quickSort`
+
+#### Request
+
+- Method: `GET`
+- Query Parameter: `arr` (comma-separated integer array)
+
+#### Response
+
+The response will be streamed as SSE events, where each event will contain an updated array representing a step in the sorting process. The last event will contain the string `"completed"` to indicate the completion of sorting.
+
+## Usage
+
+1. Make a GET request to one of the sorting endpoints mentioned above.
+2. Pass the input array as the `arr` query parameter.
+3. The response will be streamed as SSE events, allowing you to observe the step-by-step execution of the sorting algorithm.
+
+Feel free to explore and experiment with different arrays and algorithms!
+
+```
