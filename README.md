@@ -96,5 +96,3 @@ The response will be streamed as SSE events, where each event will contain an up
 3. The response will be streamed as SSE events, allowing you to observe the step-by-step execution of the sorting algorithm.
 
 Feel free to explore and experiment with different arrays and algorithms!
-
-```
