@@ -56,7 +56,7 @@ public class SortController {
                         newArr = Arrays.copyOf(arr, arr.length);
                         SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
                         emitter.send(event);
-                        Thread.sleep(1000);
+                        Thread.sleep(2500);
                         System.out.println("Sent event: " + Arrays.toString(newArr));
                     } else {
                         i++;
@@ -90,7 +90,7 @@ public class SortController {
                             newArr = Arrays.copyOf(arr, arr.length);
                             SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
                             emitter.send(event);
-                            Thread.sleep(1000);
+                            Thread.sleep(2500);
                             System.out.println("Sent event: " + Arrays.toString(newArr));
                         } else {
                             break;
@@ -124,7 +124,7 @@ public class SortController {
             newArr = Arrays.copyOf(arr, arr.length);
             SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
             emitter.send(event);
-            Thread.sleep(1000);
+            Thread.sleep(2500);
             System.out.println("Sent event: " + Arrays.toString(newArr));
           }
           SseEmitter.SseEventBuilder completed = SseEmitter.event().data("completed");
@@ -157,15 +157,12 @@ public class SortController {
                         // swap if the current element is smaller than prev
                         if (arr[j] < arr[j-1]) {
                             // swap
-//                            swap(arr, arr[j], arr[j-1]);
-                            int temp = arr[j];
-                            arr[j] = arr[j-1];
-                            arr[j-1] = temp;
+                            swap(arr, j, j-1);
                             swapped = true;
                             newArr = Arrays.copyOf(arr, arr.length);
                             SseEmitter.SseEventBuilder event = SseEmitter.event().data(newArr);
                             emitter.send(event);
-                            Thread.sleep(1000);
+                            Thread.sleep(2500);
                             System.out.println("Sent event: " + Arrays.toString(newArr));
                         }
                     }
@@ -209,7 +206,7 @@ public class SortController {
                     }
                     SseEmitter.SseEventBuilder event = SseEmitter.event().data(arr);
                     emitter.send(event);
-                    Thread.sleep(1000);
+                    Thread.sleep(2500);
                     System.out.println("Sent event: " + Arrays.toString(arr));
 
                     System.out.println("Current iteration: " + i);
