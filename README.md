@@ -11,7 +11,7 @@ This repository contains the code for a backend algorithm simulation application
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/charitha-g/cs505-group1-final-project.git
+   git clone https://github.com/rahulnayanegali/backend-algos-simulation.git
    ```
 
 2. Open the project in your preferred IDE.
